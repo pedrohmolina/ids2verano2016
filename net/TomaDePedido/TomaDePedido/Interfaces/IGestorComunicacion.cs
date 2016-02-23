@@ -1,7 +1,10 @@
-﻿namespace TomaDePedido.Interfaces
+﻿using System.Collections.Generic;
+
+namespace TomaDePedido.Interfaces
 {
     public interface IGestorComunicacion
     {
-        int ObtenerEstadoMesa(int codigoMesa);
+        List<IPedido> ObtenerPedidos(int codigoMesa);
+        void EnviarPedido(IPedido pedido);
     }
 }

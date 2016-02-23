@@ -39,12 +39,12 @@ namespace TomaDePedido.Gestores
 
         public void EnviarPedido(IPedido pedido)
         {
-            throw new NotImplementedException();
+            this.gestorComunicacion.EnviarPedido(pedido);
         }
 
         public int ObtenerEstadoMesa(int codigo)
         {
-            return this.gestorComunicacion.ObtenerEstadoMesa(codigo);
+            return 0;
         }
 
         public List<IMesa> ObtenerMesas()
@@ -59,7 +59,7 @@ namespace TomaDePedido.Gestores
         /// <returns></returns>
         public List<IPedido> ObtenerPedidos(int codigo)
         {
-            throw new NotImplementedException();
+            return this.gestorComunicacion.ObtenerPedidos(codigo);
         }
 
         public double ObtenerSaldoMesa(int codigo)

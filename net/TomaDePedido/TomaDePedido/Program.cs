@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,8 +17,6 @@ namespace TomaDePedido
         static void Main()
         {
             var gestorPedido = new Gestores.GestorPedido();
-
-            var codigo = gestorPedido.ObtenerEstadoMesa(44);
         }
     }
 }
