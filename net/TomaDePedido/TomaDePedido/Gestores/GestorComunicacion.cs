@@ -24,7 +24,7 @@ namespace TomaDePedido.Gestores
         /// <summary>
         /// Dirección del servicio webApi
         /// </summary>
-        private string url = "http://localhost/yourwebapi";
+        private string baseUrl = "http://192.168.0.131:8080";
         
         /// <summary>
         /// Realiza la comunicación con el Servicio de Facturación para obtener el estado de una mesa a partir de su codigo
@@ -36,9 +36,9 @@ namespace TomaDePedido.Gestores
             return 0;
         }
 
-        public List<IPedido> ObtenerPedidos(int codigoMesa)
+        public Mesa ObtenerMesa(int codigoMesa)
         {
-            this.url = "http://localhost/mesas/" + codigoMesa;
+            var url = baseUrl + "/mesas/" + codigoMesa;
             var result = string.Empty;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -52,8 +52,84 @@ namespace TomaDePedido.Gestores
                 }
 
                 System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-                var pedidos = serializer.Deserialize<List<IPedido>>(result);
+                var mesa = serializer.Deserialize<Mesa>(result);
+                return mesa;
+            }
+            catch (WebException ex)
+            {
+                throw ex;
+            }
+        }
+
+        public long ObtenerSaldoMesa(int codigoMesa)
+        {
+            var url = baseUrl + "/mesas/" + codigoMesa + "/cuenta";
+            var result = string.Empty;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                WebResponse response = request.GetResponse();
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    result = reader.ReadToEnd();
+                }
+
+                System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                var mesa = serializer.Deserialize<Mesa>(result);
+                return mesa.Total;
+            }
+            catch (WebException ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public List<Pedido> ObtenerPedidos(int codigoMesa)
+        {
+            var url = baseUrl + "/mesas/" + codigoMesa + "/pedidos";
+            var result = string.Empty;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                WebResponse response = request.GetResponse();
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    result = reader.ReadToEnd();
+                }
+
+                System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                var pedidos = serializer.Deserialize<List<Pedido>>(result);
                 return pedidos;
+            }
+            catch (WebException ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Mesa> ObtenerMesas()
+        {
+            var url = baseUrl + "/mesas";
+            var result = string.Empty;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                WebResponse response = request.GetResponse();
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
+                    result = reader.ReadToEnd();
+                }
+
+                System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                var mesas = serializer.Deserialize<List<Mesa>>(result);
+                return mesas;
             }
             catch (WebException ex)
             {
@@ -63,8 +139,10 @@ namespace TomaDePedido.Gestores
 
         public void EnviarPedido(IPedido pedido)
         {
+            var url = baseUrl + "/procesarPedido";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "POST";
+            
+            request.Method = "PUT";
 
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             string jsonString = serializer.Serialize(pedido);
@@ -89,7 +167,7 @@ namespace TomaDePedido.Gestores
             }
             catch (WebException ex)
             {
-                // Log exception and throw as for GET example above
+                throw ex;
             }
         }
     }

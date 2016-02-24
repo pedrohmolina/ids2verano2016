@@ -9,7 +9,7 @@ namespace TomaDePedido.Gestores
     using TomaDePedido.Interfaces;
     using TomaDePedido.Enums;
     using System.Collections.Generic;
-
+    using Models;
     /// <summary>
     /// Gestiona la comunicación entre la interfaz de pedidos y los modulos externos de los cuales necesita información
     /// </summary>
@@ -67,13 +67,23 @@ namespace TomaDePedido.Gestores
             return (Enums.EstadoMesa)estado;
         }
 
-        public List<IMesa> ObtenerMesas()
+        public List<Mesa> ObtenerMesas()
         {
             return this.Facturacion.ObtenerMesas();
         }
+
+        public IMesa ObtenerMesa(int codigoMesa)
+        {
+            return this.Facturacion.ObtenerMesa(codigoMesa);
+        }
         #endregion
 
-        public List<IPedido> ObtenerPedidos(int codigo)
+        public long PedirCuenta(int codigoMesa)
+        {
+            return this.Facturacion.ObtenerSaldoMesa(codigoMesa);
+        }
+
+        public List<Pedido> ObtenerPedidos(int codigo)
         {
             return this.Facturacion.ObtenerPedidos(codigo);
         }

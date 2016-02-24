@@ -12,7 +12,7 @@ namespace TomaDePedido.Models
 
     public class Pedido : IPedido
     {
-        private int Codigo { get; set; }
+        public int Codigo { get; set; }
 
         public int CodigoMesa { get; }
 

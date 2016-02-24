@@ -8,6 +8,7 @@ namespace TomaDePedido.Gestores
 {
     using System;
     using System.Collections.Generic;
+    using Models;
     using TomaDePedido.Interfaces;
 
     /// <summary>
@@ -47,9 +48,9 @@ namespace TomaDePedido.Gestores
             return 0;
         }
 
-        public List<IMesa> ObtenerMesas()
+        public List<Mesa> ObtenerMesas()
         {
-            throw new NotImplementedException();
+            return this.gestorComunicacion.ObtenerMesas();
         }
 
         /// <summary>
@@ -57,14 +58,19 @@ namespace TomaDePedido.Gestores
         /// </summary>
         /// <param name="codigo">Codigo de Mesa</param>
         /// <returns></returns>
-        public List<IPedido> ObtenerPedidos(int codigo)
+        public List<Pedido> ObtenerPedidos(int codigo)
         {
             return this.gestorComunicacion.ObtenerPedidos(codigo);
         }
 
-        public double ObtenerSaldoMesa(int codigo)
+        public Mesa ObtenerMesa(int codigoMesa)
         {
-            throw new NotImplementedException();
+            return this.gestorComunicacion.ObtenerMesa(codigoMesa);
+        }
+
+        public long ObtenerSaldoMesa(int codigo)
+        {
+            return this.gestorComunicacion.ObtenerSaldoMesa(codigo);
         }
     }
 }

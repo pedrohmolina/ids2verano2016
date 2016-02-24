@@ -15,8 +15,8 @@ namespace TomaDePedido.Models
         public int CodigoMesa { get; set; }
         public Enums.EstadoMesa Estado { get; set; }
         public string Nombre { get; set; }
-
-        public List<Pedido> Pedidos { get; }
+        public long Total { get; set; }
+        public List<Pedido> Pedidos { get; set; }
 
         public Mesa() {
             Pedidos = new List<Pedido>();
@@ -26,6 +26,11 @@ namespace TomaDePedido.Models
         {
             this.Estado = estado;
             //Todo enviar update de estado
+        }
+
+        public void AgregarPedido(Pedido pedido)
+        {
+            this.Pedidos.Add(pedido);
         }
     }
 }
