@@ -16,21 +16,21 @@ import java.util.Optional;
  * Created by Sebastian Schepens on 15/2/2016.
  */
 public class FacturadorImpl implements Facturador {
-	private MesaService mesaService;
-	private PedidoService pedidoService;
+    private MesaService mesaService;
+    private PedidoService pedidoService;
     private MenuService menuService;
 
-    public FacturadorImpl(){
+    public FacturadorImpl() {
         this.mesaService = new MesaServiceImpl();
         this.pedidoService = new PedidoServiceImpl();
         this.menuService = new MenuServiceImpl();
     }
 
-	public FacturadorImpl(MesaService mesaService, PedidoService pedidoService, MenuService menuService){
-		this.mesaService = mesaService;
-		this.pedidoService = pedidoService;
+    public FacturadorImpl(MesaService mesaService, PedidoService pedidoService, MenuService menuService) {
+        this.mesaService = mesaService;
+        this.pedidoService = pedidoService;
         this.menuService = menuService;
-	}
+    }
 
     @Override
     public void procesarPedido(Pedido pedido) throws TableNotFoundException, TableNotOccupiedException, IllegalArgumentException {

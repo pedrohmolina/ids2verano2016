@@ -7,10 +7,9 @@ import ar.com.caece.ids2.barapp.facturacion.exceptions.TableAlreadyOccupiedExcep
 import ar.com.caece.ids2.barapp.facturacion.exceptions.TableNotFoundException;
 import ar.com.caece.ids2.barapp.facturacion.exceptions.TableNotOccupiedException;
 import ar.com.caece.ids2.barapp.facturacion.models.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Sebastian Schepens on 22/2/2016.

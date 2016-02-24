@@ -1,24 +1,8 @@
 package ar.com.caece.ids2.barapp.facturacion;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import java.util.List;
-
-import ar.com.caece.ids2.barapp.facturacion.services.*;
-import org.junit.Before;
-import org.junit.Test;
-
-import ar.com.caece.ids2.barapp.facturacion.exceptions.DuplicateTableException;
-import ar.com.caece.ids2.barapp.facturacion.exceptions.TableNotFoundException;
-import ar.com.caece.ids2.barapp.facturacion.models.Factura;
-import ar.com.caece.ids2.barapp.facturacion.models.MedioDePago;
-import ar.com.caece.ids2.barapp.facturacion.models.Mesa;
-import ar.com.caece.ids2.barapp.facturacion.models.Pedido;
-
 public class FacturarMesaTest {
-	private MesaService mesaService = mock(MesaServiceImpl.class);
-	private PedidoService pedidoService = mock(PedidoServiceImpl.class);
+/*	private MesaService mesaService = mock(MesaServiceImpl.class);
+    private PedidoService pedidoService = mock(PedidoServiceImpl.class);
 	private MenuService menuService = mock(MenuServiceImpl.class);
 	private Facturador facturador = new FacturadorImpl(mesaService, pedidoService, menuService);
 
@@ -68,5 +52,5 @@ public class FacturarMesaTest {
 		// ver como setearle el estado close
 		List<Factura> facturas = facturador.facturarMesa(0, 1000L, 20L, medioPago);
 		assertEquals(2, facturas.size());
-	}
+	}*/
 }

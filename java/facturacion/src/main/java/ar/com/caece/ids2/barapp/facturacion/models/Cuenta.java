@@ -26,23 +26,23 @@ public class Cuenta {
         return total;
     }
 
-    public List<DetallePlato> getPlatos() {
-        return platos;
+    public void setTotal(Long total) {
+        this.total = total;
     }
 
-    public List<DetalleCerveza> getCervezas() {
-        return cervezas;
+    public List<DetallePlato> getPlatos() {
+        return platos;
     }
 
     public void setPlatos(List<DetallePlato> platos) {
         this.platos = platos;
     }
 
-    public void setCervezas(List<DetalleCerveza> cervezas) {
-        this.cervezas = cervezas;
+    public List<DetalleCerveza> getCervezas() {
+        return cervezas;
     }
 
-    public void setTotal(Long total) {
-        this.total = total;
+    public void setCervezas(List<DetalleCerveza> cervezas) {
+        this.cervezas = cervezas;
     }
 }

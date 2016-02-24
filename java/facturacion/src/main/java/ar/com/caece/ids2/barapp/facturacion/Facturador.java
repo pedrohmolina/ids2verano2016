@@ -16,7 +16,6 @@ public interface Facturador {
      * Agrega, modifica o quita un pedido de una mesa de acuerdo al estado del pedido
      *
      * @param pedido el pedido que debe ser procesado
-     *
      * @throws TableNotFoundException
      * @throws IllegalArgumentException
      */
@@ -27,7 +26,6 @@ public interface Facturador {
      *
      * @param codigoMesa codigo identificador de la mesa
      * @return {@link Cuenta} para la mesa dada, con items y total
-     *
      * @throws TableNotFoundException
      * @throws TableNotOccupiedException
      */
@@ -37,11 +35,10 @@ public interface Facturador {
      * Procesa el {@link MedioDePago} agrega la propina a la cuenta y divide en facturas de no mas del limite.
      *
      * @param codigoMesa codigo identificador de la mesa a facturar.
-     * @param limit limite de valor para una factura.
-     * @param tip valor de la propina a agregar a la factura.
-     * @param medio medio de pago.
+     * @param limit      limite de valor para una factura.
+     * @param tip        valor de la propina a agregar a la factura.
+     * @param medio      medio de pago.
      * @return {@link List} de {@link Factura}
-     *
      * @throws TableNotFoundException
      * @throws IllegalArgumentException
      */
@@ -51,7 +48,6 @@ public interface Facturador {
      * Marca una {@link Mesa} como ocupada.
      *
      * @param codigoMesa codigo identificador de la {@link Mesa}
-     *
      * @throws TableNotFoundException
      * @throws TableAlreadyOccupiedException
      */
@@ -61,7 +57,6 @@ public interface Facturador {
      * Marca una {@link Mesa} como libre.
      *
      * @param codigoMesa codigo identificador de la {@link Mesa}
-     *
      * @throws TableNotFoundException
      * @throws TableNotOccupiedException
      */
@@ -72,7 +67,6 @@ public interface Facturador {
      *
      * @param codigoMesa codigo identificador de la {@link Mesa}
      * @return {@link Integer} representante del estado {@link ar.com.caece.ids2.barapp.facturacion.models.Mesa.State} de la mesa.
-     *
      * @throws TableNotFoundException
      */
     public Integer obtenerEstadoMesa(Integer codigoMesa) throws TableNotFoundException;//tested
@@ -82,7 +76,6 @@ public interface Facturador {
      *
      * @param codigoMesa codigo identificador de la {@link Mesa}
      * @return {@link Long} saldo total de la cuenta en centavos.
-     *
      * @throws TableNotFoundException
      */
     public Long obtenerSaldo(Integer codigoMesa) throws TableNotFoundException, TableNotOccupiedException;//tested
@@ -92,7 +85,6 @@ public interface Facturador {
      *
      * @param codigoMesa codigo identificador de la {@link Mesa}
      * @return {@link List} de los {@link Pedido} asociados a una mesa.
-     *
      * @throws TableNotFoundException
      */
     public List<Pedido> obtenerPedidos(Integer codigoMesa) throws TableNotFoundException;//tested
@@ -116,7 +108,6 @@ public interface Facturador {
      *
      * @param mesaName nombre para la nueva mesa
      * @return {@link Mesa} creada
-     *
      * @throws DuplicateTableException
      * @throws IllegalArgumentException
      */
@@ -126,7 +117,6 @@ public interface Facturador {
      * Elimina una mesa del sistema.
      *
      * @param codigoMesa codigo identificador de la mesa
-     *
      * @throws TableNotFoundException
      */
     public void quitarMesa(Integer codigoMesa) throws TableNotFoundException;

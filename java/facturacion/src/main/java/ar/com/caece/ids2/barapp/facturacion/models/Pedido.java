@@ -16,12 +16,12 @@ public class Pedido {
     private Integer codigo;
     @JsonProperty("CodigoMesa")
     private Integer codigoMesa;
+    @JsonProperty("Estado")
+    private State estado = State.PENDIENTE;
     @JsonProperty("Platos")
     private List<DetallePlato> platos = new ArrayList<>();
     @JsonProperty("Cervezas")
     private List<DetalleCerveza> cervezas = new ArrayList<>();
-    @JsonProperty("Estado")
-    private State estado = State.PENDIENTE;
 
     public Pedido() {
     }
