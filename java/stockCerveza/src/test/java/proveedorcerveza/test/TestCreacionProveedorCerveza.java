@@ -1,4 +1,4 @@
-package ar.com.caece.ids2.stockCerveza.test;
+package proveedorcerveza.test;
 
 import static org.junit.Assert.*;
 

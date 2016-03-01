@@ -1,4 +1,4 @@
-package ar.com.caece.ids2.stockCerveza.test;
+package cerveza.test;
 
 import static org.junit.Assert.*;
 
@@ -10,20 +10,14 @@ import ar.com.caece.ids2.stockCerveza.model.Cerveza;
 
 public class TestBusquedaCervezaInexistente {
 
-	@Test
-	public void test() {
-		try{
+	@Test(expected=NoEncontroEntidadException.class)	
+	public void test() throws NoEncontroEntidadException {
 			
 			CervezaManager cm = new CervezaManager();
 			Cerveza cerveza = cm.buscarCerveza(1);
 			cerveza.getPrecio();
 		
-		}catch(NoEncontroEntidadException nex){
-			System.out.println(nex.getMessage());
+	
 		
-		}catch(Exception e){
-			fail("Fallo la busqueda de cerveza: "+e.getMessage());
 		}
-	}
-
 }
