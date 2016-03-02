@@ -1,9 +1,15 @@
-﻿namespace TomaDePedido.Gestores
+﻿//-----------------------------------------------------------------------
+// <copyright file="GestorPedido.cs" company="CAECE ENTERPRAISSSSS">
+//     Copyright (c) Caece Enterpraisssss. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace TomaDePedido.Gestores
 {
-    using System;
     using TomaDePedido.Interfaces;
     using TomaDePedido.Enums;
     using System.Collections.Generic;
+    using Models;
     /// <summary>
     /// Gestiona la comunicación entre la interfaz de pedidos y los modulos externos de los cuales necesita información
     /// </summary>
@@ -12,6 +18,7 @@
         private IGestorCocina Cocina;
         private IGestorStock Stock;
         private IGestorFacturacion Facturacion;
+        private IGestorComunicacion Comunicacion;
 
         public double ObtenerSaldoMesa(int codigo)
         {
@@ -27,9 +34,10 @@
 
         public GestorPedido()
         {
-            this.Cocina = new GestorCocina();
-            this.Stock = new GestorStock();
-            this.Facturacion = new GestorFacturacion();
+            this.Comunicacion = new GestorComunicacion();
+            this.Cocina = new GestorCocina(this.Comunicacion);
+            this.Stock = new GestorStock(this.Comunicacion);
+            this.Facturacion = new GestorFacturacion(this.Comunicacion);
         }
         
         public void EnviarPedido(IPedido pedido)
@@ -59,13 +67,23 @@
             return (Enums.EstadoMesa)estado;
         }
 
-        public List<IMesa> ObtenerMesas()
+        public List<Mesa> ObtenerMesas()
         {
             return this.Facturacion.ObtenerMesas();
         }
+
+        public IMesa ObtenerMesa(int codigoMesa)
+        {
+            return this.Facturacion.ObtenerMesa(codigoMesa);
+        }
         #endregion
 
-        public List<IPedido> ObtenerPedidos(int codigo)
+        public long PedirCuenta(int codigoMesa)
+        {
+            return this.Facturacion.ObtenerSaldoMesa(codigoMesa);
+        }
+
+        public List<Pedido> ObtenerPedidos(int codigo)
         {
             return this.Facturacion.ObtenerPedidos(codigo);
         }

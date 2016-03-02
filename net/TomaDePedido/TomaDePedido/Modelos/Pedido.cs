@@ -12,7 +12,7 @@ namespace TomaDePedido.Models
 
     public class Pedido : IPedido
     {
-        private int Codigo { get; set; }
+        public int Codigo { get; set; }
 
         public int CodigoMesa { get; }
 
@@ -41,7 +41,7 @@ namespace TomaDePedido.Models
 
         public void AgregarPlato(int codigoPlato, int cantidad, string comentario)
         {
-            this.Platos.Add(new DetallePlato(codigoPlato));
+            this.Platos.Add(new DetallePlato(codigoPlato, cantidad, comentario));
         }
 
         public int ObtenerCodigo()

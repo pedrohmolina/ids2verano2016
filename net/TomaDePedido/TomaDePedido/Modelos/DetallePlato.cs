@@ -11,8 +11,8 @@ namespace TomaDePedido.Models
 
     public class DetallePlato : IDetallePlato
     {
-        private int CodigoDetallePlato { get; set; }
-        private int CodigoPlato { get; set; }
+        public int CodigoDetallePlato { get; set; }
+        public int CodigoPlato { get; set; }
 
         public Enums.EstadoPedido Estado { get; }
 
@@ -22,9 +22,11 @@ namespace TomaDePedido.Models
 
         public DetallePlato() { }
 
-        public DetallePlato(int codigoPlato)
+        public DetallePlato(int codigoPlato, int cantidad, string comentario)
         {
             this.CodigoPlato = codigoPlato;
+            this.Cantidad = cantidad;
+            this.Comentario = comentario;
             this.Estado = Enums.EstadoPedido.Pendiente;
         }
 

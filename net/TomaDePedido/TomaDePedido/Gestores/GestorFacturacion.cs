@@ -1,7 +1,14 @@
-﻿namespace TomaDePedido.Gestores
+﻿//-----------------------------------------------------------------------
+// <copyright file="GestorFacturacion.cs" company="CAECE ENTERPRAISSSSS">
+//     Copyright (c) Caece Enterpraisssss. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace TomaDePedido.Gestores
 {
     using System;
     using System.Collections.Generic;
+    using Models;
     using TomaDePedido.Interfaces;
 
     /// <summary>
@@ -9,6 +16,18 @@
     /// </summary>
     public class GestorFacturacion : IGestorFacturacion
     {
+        private IGestorComunicacion gestorComunicacion;
+
+        public GestorFacturacion()
+        {
+
+        }
+
+        public GestorFacturacion(IGestorComunicacion gestorComunicacion)
+        {
+            this.gestorComunicacion = gestorComunicacion;
+        }
+
         public void OcuparMesa(int codigo)
         {
             
@@ -21,17 +40,17 @@
 
         public void EnviarPedido(IPedido pedido)
         {
-            throw new NotImplementedException();
+            this.gestorComunicacion.EnviarPedido(pedido);
         }
 
         public int ObtenerEstadoMesa(int codigo)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
-        public List<IMesa> ObtenerMesas()
+        public List<Mesa> ObtenerMesas()
         {
-            throw new NotImplementedException();
+            return this.gestorComunicacion.ObtenerMesas();
         }
 
         /// <summary>
@@ -39,14 +58,19 @@
         /// </summary>
         /// <param name="codigo">Codigo de Mesa</param>
         /// <returns></returns>
-        public List<IPedido> ObtenerPedidos(int codigo)
+        public List<Pedido> ObtenerPedidos(int codigo)
         {
-            throw new NotImplementedException();
+            return this.gestorComunicacion.ObtenerPedidos(codigo);
         }
 
-        public double ObtenerSaldoMesa(int codigo)
+        public Mesa ObtenerMesa(int codigoMesa)
         {
-            throw new NotImplementedException();
+            return this.gestorComunicacion.ObtenerMesa(codigoMesa);
+        }
+
+        public long ObtenerSaldoMesa(int codigo)
+        {
+            return this.gestorComunicacion.ObtenerSaldoMesa(codigo);
         }
     }
 }

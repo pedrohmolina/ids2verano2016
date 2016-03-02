@@ -1,4 +1,10 @@
-﻿namespace TomaDePedido.Gestores
+﻿//-----------------------------------------------------------------------
+// <copyright file="GestorFantasma.cs" company="CAECE ENTERPRAISSSSS">
+//     Copyright (c) Caece Enterpraisssss. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace TomaDePedido.Gestores
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +16,17 @@
     /// </summary>
     public class GestorFantasma : IGestorFantasma
     {
+        private IGestorComunicacion gestorComunicacion;
+
+        public GestorFantasma()
+        {
+        }
+
+        public GestorFantasma(IGestorComunicacion gestorComunicacion)
+        {
+            this.gestorComunicacion = gestorComunicacion;
+        }
+
         public List<Cerveza> ObtenerCervezas()
         {
             throw new NotImplementedException();

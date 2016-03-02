@@ -1,6 +1,7 @@
 ﻿namespace TomaDePedido.Interfaces
 {
     using System.Collections.Generic;
+    using Models;
     using TomaDePedido.Enums;
 
     public interface IGestorPedido
@@ -33,7 +34,7 @@
         /// <param name="codigo">Codigo de la Mesa</param>
         void OcuparMesa(int codigo);
 
-        List<IMesa> ObtenerMesas();
+        List<Mesa> ObtenerMesas();
 
         void PedirCerveza(IDetalleCerveza detalle);
 

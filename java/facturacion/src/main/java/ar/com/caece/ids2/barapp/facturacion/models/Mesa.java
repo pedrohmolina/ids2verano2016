@@ -1,6 +1,11 @@
 package ar.com.caece.ids2.barapp.facturacion.models;
 
-import ar.com.caece.ids2.barapp.facturacion.exceptions.DuplicateTableException;
+import ar.com.caece.ids2.barapp.facturacion.exceptions.TableAlreadyOccupiedException;
+import ar.com.caece.ids2.barapp.facturacion.exceptions.TableNotOccupiedException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.*;
 
@@ -8,82 +13,58 @@ import java.util.*;
  * Created by Sebastian Schepens on 15/2/2016.
  */
 public class Mesa {
-    private static final List<Mesa> mesas = Collections.synchronizedList(new ArrayList<>());
-
-    private String name;
-    private Integer code;
+    @JsonProperty("Nombre")
+    private String nombre;
+    @JsonProperty("CodigoMesa")
+    private Integer codigoMesa;
+    @JsonProperty("Estado")
+    private State estado = State.LIBRE;
+    @JsonProperty("Pedidos")
     private List<Pedido> pedidos;
-    public enum State {
-        OPEN, CLOSED
-    }
-    private State state;
 
-    private Mesa(String name) {
-        this.name = name;
-        this.pedidos = Collections.synchronizedList(new ArrayList<Pedido>());
+    public Mesa(String nombre) {
+        this.nombre = nombre;
+        this.pedidos = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public static Mesa getMesa(Integer code) {
-        return mesas.get(code);
+    public Integer getCodigoMesa() {
+        return codigoMesa;
     }
 
-    public static List<Mesa> getMesas() {
-        return new ArrayList<>(mesas);
+    public void setCodigoMesa(Integer codigoMesa) {
+        this.codigoMesa = codigoMesa;
     }
 
-    public static Mesa createMesa(String name) throws DuplicateTableException {
-        if (name == null || name.equals("")) {
-            throw new IllegalArgumentException("Name must not be null or empty");
-        }
-        Optional<Mesa> m = mesas.stream().filter(mesa1 -> mesa1.getName() == name).findAny();
-        if (m.isPresent()) {
-            throw new DuplicateTableException("Table with name already present");
-        }
-        Mesa mesa = new Mesa(name);
-        mesas.add(mesa);
-        mesa.code = mesas.indexOf(mesa);
-        return mesa;
+    public String getNombre() {
+        return nombre;
     }
 
-    public static void destroyMesa(Integer code) {
-        mesas.remove(code);
-        Optional<Mesa> m = mesas.stream().filter(mesa -> Objects.equals(mesa.getCode(), code)).findFirst();
-        if (m.isPresent()) {
-            mesas.remove(m.get());
-        }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @JsonIgnore
     public boolean isOpen() {
-        return state == State.OPEN;
+        return estado == State.OCUPADA;
     }
 
+    @JsonIgnore
     public boolean isClosed() {
         return !isOpen();
     }
 
-    public void open() {
-        state = State.OPEN;
+    public void open() throws TableAlreadyOccupiedException {
+        if (estado == State.OCUPADA) {
+            throw new TableAlreadyOccupiedException();
+        }
+        estado = State.OCUPADA;
     }
 
-    public List<Cuenta> close() {
-        state = State.CLOSED;
-        return null;
+    public void close() throws TableNotOccupiedException {
+        if (estado == State.LIBRE) {
+            throw new TableNotOccupiedException("Table is not occupied");
+        }
+        estado = State.LIBRE;
     }
 
     public List<Pedido> getPedidos() {
@@ -95,7 +76,7 @@ public class Mesa {
     }
 
     public void removePedido(Integer pedido) {
-        Optional<Pedido> p = pedidos.stream().filter(ped -> ped.getCode() == pedido).findFirst();
+        Optional<Pedido> p = pedidos.stream().filter(ped -> ped.getCodigo() == pedido).findFirst();
         if (p.isPresent()) {
             pedidos.remove(p.get());
         }
@@ -105,7 +86,24 @@ public class Mesa {
         pedidos.remove(p);
     }
 
-    public State getState() {
-        return state;
+    public State getEstado() {
+        return estado;
+    }
+
+    public enum State {
+        LIBRE,
+        OCUPADA;
+
+        private static List<State> list = Arrays.asList(State.values());
+
+        @JsonCreator
+        public static State forValue(Integer value) {
+            return list.get(value);
+        }
+
+        @JsonValue
+        public Integer toValue() {
+            return list.indexOf(this);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package ar.com.caece.ids2.barapp.facturacion.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,32 +9,40 @@ import java.util.List;
  * Created by Sebastian Schepens on 15/2/2016.
  */
 public class Cuenta {
-    List<DetallePlato> detallePlatos = new ArrayList<>();
-    List<DetalleBebida> detalleBebidas = new ArrayList<>();
+    @JsonProperty("Platos")
+    List<DetallePlato> platos = new ArrayList<>();
+    @JsonProperty("Cervezas")
+    List<DetalleCerveza> cervezas = new ArrayList<>();
+    @JsonProperty("Total")
     Long total = 0L;
 
-    public Cuenta(List<Pedido> pedidos) {
-        for (Pedido p : pedidos) {
-            for (DetallePlato detallePlato : p.getDetallePlatos()) {
-                this.detallePlatos.add(detallePlato);
-                this.total += (Menu.obtenerValorPlato(detallePlato.getCode()) * detallePlato.getCantidad());
-            }
-            for (DetalleBebida detalleBebida : p.getDetalleBebidas()) {
-                this.detalleBebidas.add(detalleBebida);
-                this.total += (Menu.obtenerValorBebida(detalleBebida.getCode()) * detalleBebida.getCantidad());
-            }
-        }
+    public Cuenta(List<DetallePlato> platos, List<DetalleCerveza> cervezas, Long total) {
+        this.platos = platos;
+        this.cervezas = cervezas;
+        this.total = total;
     }
 
     public Long getTotal() {
         return total;
     }
 
-    public List<DetallePlato> getDetallePlatos() {
-        return detallePlatos;
+    public void setTotal(Long total) {
+        this.total = total;
     }
 
-    public List<DetalleBebida> getDetalleBebidas() {
-        return detalleBebidas;
+    public List<DetallePlato> getPlatos() {
+        return platos;
+    }
+
+    public void setPlatos(List<DetallePlato> platos) {
+        this.platos = platos;
+    }
+
+    public List<DetalleCerveza> getCervezas() {
+        return cervezas;
+    }
+
+    public void setCervezas(List<DetalleCerveza> cervezas) {
+        this.cervezas = cervezas;
     }
 }
