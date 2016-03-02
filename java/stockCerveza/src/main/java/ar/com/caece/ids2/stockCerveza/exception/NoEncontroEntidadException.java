@@ -13,6 +13,6 @@ public class NoEncontroEntidadException extends Exception {
 	
 	@Override
 	public String getMessage(){
-		return "No se encontro la instancia de la clase de la clase:"+ entidadClase.getName();
+		return "No se encontro la instancia de la clase:"+ entidadClase.getName();
 	}
 }

@@ -124,5 +124,12 @@ public class Cerveza implements Serializable{
 	public void setEstiloCerveza(EstiloCerveza estiloCerveza) {
 		this.estiloCerveza = estiloCerveza;
 	}
+	
+	@Override
+	public String toString(){
+		return this.getMarcacerveza().getDescripcion()+ "-" +
+				this.getEstiloCerveza().getDescripcion();
+				
+	}
 
 }
