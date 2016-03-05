@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ar.com.caece.ids2.barapp.cocina.dao.PedidoDao;
 import ar.com.caece.ids2.barapp.cocina.exceptions.EstadoInexistenteException;
 import ar.com.caece.ids2.barapp.cocina.exceptions.FlujoIncorrectoException;
+import ar.com.caece.ids2.barapp.cocina.exceptions.StockException;
 import ar.com.caece.ids2.barapp.cocina.model.DetalleCerveza;
 import ar.com.caece.ids2.barapp.cocina.model.DetallePedido;
 import ar.com.caece.ids2.barapp.cocina.model.Pedido;
@@ -159,6 +161,86 @@ public class GestionPedidoDefaultTest {
 			comunicacionPedido.cancelarPedido(1);
 		} catch(Exception e) {
 			Assert.assertEquals("No existe el pedido buscado.", e.getMessage());
+		}
+	}
+	
+	/**
+	 * Test que recibe un pedido que incluye un plato que tiene como ingrediente
+	 * una cerveza.
+	 * 
+	 * Probar en conjunto con la conexion del modulo stock.
+	 * Configurar la clase ConexionStock con el host y port correspondientes
+	 * para realizar el test.
+	 */
+	@Test
+	@Ignore
+	public void testRestRecibirPedido() {
+		PedidoDao pedidoDao = mock(PedidoDao.class);
+		List<DetallePedido> listaPlatos = new ArrayList<DetallePedido>();
+		DetalleCerveza detalleCerveza = new DetalleCerveza(6, 1, 1);
+		DetallePedido detallePedido = new DetallePedido(1, 2, 34, 1, detalleCerveza);
+		listaPlatos.add(detallePedido);
+		Pedido pedido = crearPedido(1, 12, CocinaEstados.PENDIENTE, true, listaPlatos, null);
+		comunicacionPedido.setPedidoDao(pedidoDao);
+		try {
+			comunicacionPedido.recibirPedido(pedido);
+		} catch(Exception e) {
+			fail("Error: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Test de cantidad insuficiente de cerveza.
+	 * 
+	 * Probar en conjunto con la conexion del modulo stock.
+	 * Configurar la clase ConexionStock con el host y port correspondientes
+	 * para realizar el test.
+	 */
+	@Test
+	@Ignore
+	public void testRestRecibirPedidoCantidad() {
+		PedidoDao pedidoDao = mock(PedidoDao.class);
+		List<DetallePedido> listaPlatos = new ArrayList<DetallePedido>();
+		DetalleCerveza detalleCerveza = new DetalleCerveza(6, 1, 96);
+		DetallePedido detallePedido = new DetallePedido(1, 2, 34, 1, detalleCerveza);
+		listaPlatos.add(detallePedido);
+		Pedido pedido = crearPedido(1, 12, CocinaEstados.PENDIENTE, true, listaPlatos, null);
+		comunicacionPedido.setPedidoDao(pedidoDao);
+		try {
+			comunicacionPedido.recibirPedido(pedido);
+		} catch(StockException e) {
+			//Se valida que el mensaje recibido conincida con el de cantidad insuficiente
+			Assert.assertEquals("Error en servicion de stock, statusCode: 2, message: La cerveza: Dubel-Barley wine se encuentra momentaneamente sin stock", e.getMessage());
+		} catch (Exception e) {
+			fail("Error: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Test que recibe un pedido que incluye un plato que tiene como ingrediente
+	 * una cerveza inexistente.
+	 * 
+	 * Probar en conjunto con la conexion del modulo stock.
+	 * Configurar la clase ConexionStock con el host y port correspondientes
+	 * para realizar el test.
+	 */
+	@Test
+	@Ignore
+	public void testRestRecibirPedidoCervezaInexistente() {
+		PedidoDao pedidoDao = mock(PedidoDao.class);
+		List<DetallePedido> listaPlatos = new ArrayList<DetallePedido>();
+		DetalleCerveza detalleCerveza = new DetalleCerveza(9999, 1, 1);
+		DetallePedido detallePedido = new DetallePedido(1, 2, 34, 1, detalleCerveza);
+		listaPlatos.add(detallePedido);
+		Pedido pedido = crearPedido(1, 12, CocinaEstados.PENDIENTE, true, listaPlatos, null);
+		comunicacionPedido.setPedidoDao(pedidoDao);
+		try {
+			comunicacionPedido.recibirPedido(pedido);
+		} catch(StockException e) {
+			//Se valida que el mensaje recibido coincida con el de cerveza inexistente
+			Assert.assertEquals("Error en servicion de stock, statusCode: 2, message: Cerveza Inexistente", e.getMessage());
+		} catch (Exception e) {
+			fail("Error: " + e.getMessage());
 		}
 	}
 	

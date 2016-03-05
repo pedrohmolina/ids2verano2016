@@ -2,12 +2,29 @@ package ar.com.caece.ids2.barapp.cocina.model;
 
 import java.util.List;
 
-public class Pedido {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="pedido")
+public class Pedido {
+	
+	@Id
+	@Column(name="codigo")
 	private int id;
+	@Column(name="codigomesa")
 	private int idMesa;
-	private int estadoMesa;
-	private List<DetallePlato> listaPlatos;
+	@Column(name="estadopedido")
+	private int estadoPedido;
+	@Column(name="entregartodojunto")
+	private boolean entregarTodoJunto;
+	@OneToMany(mappedBy="id", cascade=CascadeType.ALL)
+	private List<DetallePedido> listaPlatos;
+	@OneToMany(mappedBy="id", cascade=CascadeType.ALL)
 	private List<DetalleCerveza> listaCervezas;
 	
 	public int getId() {
@@ -22,16 +39,22 @@ public class Pedido {
 	public void setIdMesa(int idMesa) {
 		this.idMesa = idMesa;
 	}
-	public int getEstadoMesa() {
-		return estadoMesa;
+	public int getEstadoPedido() {
+		return estadoPedido;
 	}
-	public void setEstadoMesa(int estadoMesa) {
-		this.estadoMesa = estadoMesa;
+	public void setEstadoPedido(int estadoPedido) {
+		this.estadoPedido = estadoPedido;
 	}
-	public List<DetallePlato> getListaPlatos() {
+	public boolean isEntregarTodoJunto() {
+		return entregarTodoJunto;
+	}
+	public void setEntregarTodoJunto(boolean entregarTodoJunto) {
+		this.entregarTodoJunto = entregarTodoJunto;
+	}
+	public List<DetallePedido> getListaPlatos() {
 		return listaPlatos;
 	}
-	public void setListaPlatos(List<DetallePlato> listaPlatos) {
+	public void setListaPlatos(List<DetallePedido> listaPlatos) {
 		this.listaPlatos = listaPlatos;
 	}
 	public List<DetalleCerveza> getListaCervezas() {

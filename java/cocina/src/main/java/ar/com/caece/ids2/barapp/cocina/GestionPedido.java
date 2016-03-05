@@ -2,6 +2,7 @@ package ar.com.caece.ids2.barapp.cocina;
 
 import ar.com.caece.ids2.barapp.cocina.exceptions.EstadoInexistenteException;
 import ar.com.caece.ids2.barapp.cocina.exceptions.FlujoIncorrectoException;
+import ar.com.caece.ids2.barapp.cocina.exceptions.StockException;
 import ar.com.caece.ids2.barapp.cocina.exceptions.PedidoInexistenteException;
 import ar.com.caece.ids2.barapp.cocina.exceptions.PedidoSinPlatosException;
 import ar.com.caece.ids2.barapp.cocina.model.Pedido;
@@ -17,11 +18,15 @@ public interface GestionPedido {
 	 * Metodo que recibe el pedido con los detalles de la mesa.
 	 * El pedido ingresa con estado pendiente.
 	 * 
+	 * Si el pedido usa cerveza como ingrediente se realiza una consulta
+	 * sobre el modulo de stock.
+	 * 
 	 * @param pedido: datos de la mesa
 	 * @exception FlujoIncorrectoException: ocurre cuando se recibe el plato con estado distinto a pendiente
 	 * @exception PedidoSinPlatosException: ocurre si el pedido recibido no tiene platos asignados
+	 * @exception StockException: ocurre si la llamada al servicio rest devuelve un resultado no satisfactorio 
 	 */
-	public void recibirPedido(Pedido pedido) throws FlujoIncorrectoException, PedidoSinPlatosException;
+	public void recibirPedido(Pedido pedido) throws FlujoIncorrectoException, PedidoSinPlatosException, StockException;
 	
 	/**
 	 * Metodo que recibe un pedido a modificar.
